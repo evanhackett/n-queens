@@ -150,10 +150,10 @@
         if (rows[y][x] !== 0) {
           numPieces++;
           if(numPieces > 1){
-            console.log("///////// UP TO LEFT////////////");
-            console.log("number of pieces: " + numPieces);
-            console.log("x: " + x);
-            console.log("y: " + y);
+            // console.log("///////// UP TO LEFT////////////");
+            // console.log("number of pieces: " + numPieces);
+            // console.log("x: " + x);
+            // console.log("y: " + y);
           }
         }
         x--;
@@ -169,12 +169,12 @@
         if (rows[y][x] !== 0) {
           numPieces++;
           if(numPieces > 0){
-            console.log("/////////// DOWN TO RIGHT/////////////////");
-            console.log('rows: ' + this.rows());
-            console.log("rows()[y][x]: " + this.rows()[y][x]);
-            console.log("number of pieces: " + numPieces);
-            console.log("x: " + x);
-            console.log("y: " + y);
+            // console.log("/////////// DOWN TO RIGHT/////////////////");
+            // console.log('rows: ' + this.rows());
+            // console.log("rows()[y][x]: " + this.rows()[y][x]);
+            // console.log("number of pieces: " + numPieces);
+            // console.log("x: " + x);
+            // console.log("y: " + y);
           }
         }
         x++;
@@ -211,13 +211,69 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function(x, y) {
+      var rows = this.rows();
+      var numPieces = 0;
+
+      var startX = x;
+      var startY = y;
+     
+      // go up and to the right
+      while ( x < this.get('n') && y >= 0) {
+        if (rows[y][x] !== 0) {
+          numPieces++;
+          if(numPieces > 1){
+            // console.log("///////// UP TO LEFT////////////");
+            // console.log("number of pieces: " + numPieces);
+            // console.log("x: " + x);
+            // console.log("y: " + y);
+          }
+        }
+        x++;
+        y--;
+      }
+
+      // reset x and y
+      x = startX - 1;
+      y = startY + 1;
+
+      // go down and to the left
+      while (y < this.get('n') && x >= 0) {
+        if (rows[y][x] !== 0) {
+          numPieces++;
+          if(numPieces > 0){
+            // console.log("/////////// DOWN TO RIGHT/////////////////");
+            // console.log('rows: ' + this.rows());
+            // console.log("rows()[y][x]: " + this.rows()[y][x]);
+            // console.log("number of pieces: " + numPieces);
+            // console.log("x: " + x);
+            // console.log("y: " + y);
+          }
+        }
+        x--;
+        y++;
+      }
+      
+      return numPieces > 1 ? true : false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      //check top
+      for(var i = 0; i < this.get('n'); i++){
+        if(this.hasMinorDiagonalConflictAt(i,0)){
+          return true;
+        }
+      }
+
+
+      //check right
+      for(i = 0; i < this.get('n'); i++){
+        if(this.hasMinorDiagonalConflictAt(this.get('n'),i)){
+          return true;
+        }
+      }
+      return false; 
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
